@@ -1,0 +1,56 @@
+# Sample invalid commands file - Updated for Multi-Calendar System
+# This file tests error handling and validation in both single and multi-calendar modes
+
+# Test 1: Commands without active calendar (should fail in single-calendar mode)
+create event Meeting from 2025-05-05T10:00 to 2025-05-05T11:00
+
+# Test 2: Completely invalid command syntax
+invalid command here
+
+# Test 3: Duplicate event creation (same subject, start, end times)
+create calendar --name test --timezone America/New_York
+use calendar --name test
+create event Meeting from 2025-05-05T10:00 to 2025-05-05T11:00
+create event Meeting from 2025-05-05T10:00 to 2025-05-05T11:00
+
+# Test 4: Invalid property in edit command
+edit event badproperty Meeting from 2025-05-05T10:00 to 2025-05-05T11:00 with "New Value"
+
+# Test 5: Invalid date format in show status
+show status invalid-date
+
+# Test 6: Invalid timezone in calendar creation
+create calendar --name badtz --timezone Invalid/Timezone
+
+# Test 7: Calendar operations with non-existent calendar
+use calendar --name nonexistent
+edit calendar --name nonexistent --property name newname
+
+# Test 8: Copy operations with invalid targets
+copy event Meeting on 2025-05-05T10:00 --target nonexistent to 2025-05-05T11:00
+
+# Test 9: Invalid date formats in copy operations
+copy events on invalid-date --target test to 2025-05-05
+
+# Test 10: Invalid event series patterns
+create event "Bad Series" from 2025-05-05T10:00 to 2025-05-05T11:00 repeats XYZ for 5 times
+
+# Test 11: Missing required parameters
+create calendar --name
+edit calendar --name test --property
+copy event --target test
+
+# Test 12: Invalid status values
+edit event status Meeting from 2025-05-05T10:00 to 2025-05-05T11:00 with invalid_status
+
+# Test 13: Time range validation errors
+create event "Bad Time Range" from 2025-05-05T15:00 to 2025-05-05T10:00
+print events from 2025-05-05T15:00 to 2025-05-05T10:00
+
+# Test 14: Event series spanning multiple days (should fail)
+create event "Multi-day Series" from 2025-05-05T10:00 to 2025-05-06T11:00 repeats MW for 3 times
+
+# Test 15: Editing non-existent events
+edit event subject NonExistentEvent from 2025-05-05T10:00 to 2025-05-05T11:00 with "New Subject"
+
+exit

@@ -1,0 +1,11 @@
+# Commands file without exit command - Updated for Multi-Calendar System
+
+# Create a calendar first (required for multi-calendar mode)
+create calendar --name test --timezone America/New_York
+use calendar --name test
+
+# Create events (works in both single and multi-calendar modes)
+create event Meeting from 2025-05-05T10:00 to 2025-05-05T11:00
+print events on 2025-05-05
+
+# Missing exit command - should cause error in headless mode
